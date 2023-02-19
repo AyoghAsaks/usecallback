@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import { useCallback, useEffect, useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
 
 function App() {
+
+  let [state, setState] = useState({
+    price: 0
+  }); 
+
+  //See how "useCallback()" function is applied below
+  let fetchPrice = useCallback(() => {
+    setState({
+      ...state, price: Math.floor(Math.random() * 100) + 1 //price is assigned random values
+    });
+  }, [state])
+  
+  useEffect(() =>{
+    const interval = setInterval(() => {
+      fetchPrice();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [fetchPrice])
+
+  //let { price } = state; //Destructure "price" variable
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <section>
+      <Container className="">
+        <Row className="">
+           <Col>uuu</Col>
+           <Col className="">
+           
+              <h1 className="bg-danger ms-5">{state.price}</h1>
+              
+              {/*<h1>{price}</h1>*/}
+          
+           </Col>
+        </Row>
+      </Container>
+    </section>
   );
 }
 
